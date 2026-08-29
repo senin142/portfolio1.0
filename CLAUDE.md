@@ -40,10 +40,11 @@ Every claim in the portfolio, CV, and README must be something Shubhanshu can ex
 - Case study cards use a status dot + label: teal "Deployed" / amber "In staging" / teal "Ongoing" — never mark something deployed if it isn't.
 - Single-file HTML (`index.html`), no build step, hosted via GitHub Pages at https://senin142.github.io/portfolio1.0/
 
-## Planned portfolio projects (original, clean-room — not employer code)
+## Portfolio projects (original, clean-room — not employer code)
 
-1. **Bilingual Content CMS** — NestJS + PostgreSQL + Next.js, JWT auth, RTL Arabic support, inspired generically by bilingual content patterns (not copied). Spec already written; not yet built.
-2. Additional projects TBD — should reflect the architecture patterns above (microservices, shared libraries, domain-driven modules) without naming or copying the real system.
+1. **Bilingual Content CMS** — NestJS + PostgreSQL + Next.js, JWT auth, RTL Arabic support, inspired generically by bilingual content patterns (not copied). Built at `d:\work\NextStep\backend` + `frontend`, committed locally, not yet pushed to GitHub or deployed — don't mark "Deployed" in the portfolio until it has a real live URL.
+2. **Role Workflow Portal** — NestJS + PostgreSQL + Next.js, a case (requester → reviewer → admin) moving through a server-enforced pipeline (submitted → assigned → in_review → resolved/rejected). Inspired generically by multi-role workflow platforms (not copied — no real role names, no payment/video features). Built at `d:\work\role-workflow-portal`, committed locally, not yet pushed to GitHub or deployed.
+3. Both are now reflected in `index.html`'s new "Personal Projects" section (separate from "Selected Systems," which stays real employer work only). Still need: CV and portfolio README updated to mention these two, and — when ready — pushed to GitHub with real repo links added to the portfolio cards.
 
 ## When adding a new project or case study
 
