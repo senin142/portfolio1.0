@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Player Access-Control Demo — Shubhanshu Pandey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/video.js@8/dist/video-js.min.css" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c1218;
+    --bg-elev:#131b23;
+    --bg-elev-2:#182028;
+    --border:#243040;
+    --text:#e7edf2;
+    --text-muted:#8b9aac;
+    --text-dim:#5e6c7d;
+    --accent:#4fd6c4;
+    --accent-dim:#3aa89b;
+    --accent-soft:rgba(79,214,196,0.10);
+    --amber:#e8a33d;
+    --amber-soft:rgba(232,163,61,0.12);
+    --red:#e8595a;
+    --red-soft:rgba(232,89,90,0.12);
+    --radius:10px;
+    --maxw:920px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  h1,h2,h3{ font-family:'Space Grotesk',sans-serif; margin:0; letter-spacing:-0.01em; }
+  .mono{ font-family:'JetBrains Mono',monospace; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+  @media (max-width:640px){ .wrap{ padding:0 18px; } }
+
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(12,18,24,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav.wrap{ display:flex; align-items:center; justify-content:space-between; height:56px; }
+  .logo{ font-family:'JetBrains Mono',monospace; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; text-decoration:none; }
+  .logo .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); }
+  .back-link{ font-size:13.5px; color:var(--text-muted); text-decoration:none; }
+  .back-link:hover{ color:var(--accent); }
+
+  .page-head{ padding:48px 0 32px; border-bottom:1px solid var(--border); }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent);
+    text-transform:uppercase; letter-spacing:.1em; margin-bottom:14px;
+  }
+  .page-head h1{ font-size:32px; font-weight:700; line-height:1.15; }
+  @media (max-width:560px){ .page-head h1{ font-size:25px; } }
+  .page-head p{ color:var(--text-muted); font-size:15px; margin-top:14px; max-width:65ch; }
+  .page-head .note{ margin-top:14px; font-size:13px; color:var(--text-dim); }
+
+  section{ padding:44px 0; border-bottom:1px solid var(--border); }
+  .sec-head{ margin-bottom:20px; }
+  .sec-num{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent); margin-bottom:6px; letter-spacing:.08em; }
+  .sec-head h2{ font-size:21px; }
+  .sec-head p{ color:var(--text-muted); margin-top:8px; font-size:14px; max-width:65ch; }
+
+  .player-shell{
+    position:relative; background:#000; border-radius:var(--radius); overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .video-js{ width:100%; aspect-ratio:16/9; }
+
+  /* block overlay */
+  .block-overlay{
+    position:absolute; inset:0; z-index:30; display:none;
+    background:rgba(12,18,24,0.94); backdrop-filter:blur(2px);
+    flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; gap:14px; padding:24px;
+  }
+  .block-overlay.active{ display:flex; }
+  .block-icon{ font-size:26px; }
+  .block-overlay h3{ font-size:17px; }
+  .block-overlay p{ color:var(--text-muted); font-size:13.5px; max-width:44ch; margin:0; }
+  .block-countdown{
+    font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--amber);
+    background:var(--amber-soft); border:1px solid rgba(232,163,61,0.35);
+    padding:4px 10px; border-radius:6px;
+  }
+  .unblock-btn{
+    font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+    background:var(--accent); color:#06110f; border:none; padding:10px 18px;
+    border-radius:7px; cursor:pointer; margin-top:4px;
+  }
+  .unblock-btn:hover{ background:var(--accent-dim); }
+  .reblock-link{ font-size:12px; color:var(--text-dim); background:none; border:none; text-decoration:underline; cursor:pointer; font-family:inherit; }
+
+  .status-row{
+    display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; font-size:12.5px;
+  }
+  .status-chip{
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; padding:4px 9px; border-radius:6px;
+    border:1px solid var(--border); color:var(--text-muted);
+  }
+  .status-chip.on{ border-color:var(--red); color:var(--red); background:var(--red-soft); }
+  .status-chip.off{ border-color:var(--accent-dim); color:var(--accent); background:var(--accent-soft); }
+
+  /* custom video.js playlist button */
+  .vjs-playlist-button .vjs-icon-placeholder::before{
+    font-family:'JetBrains Mono',monospace; content:'☰'; font-size:18px; line-height:1;
+  }
+
+  .playlist-panel{
+    margin-top:14px; border:1px solid var(--border); border-radius:var(--radius);
+    background:var(--bg-elev); overflow:hidden; display:none;
+  }
+  .playlist-panel.open{ display:block; }
+  .playlist-item{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:12px 16px; border-bottom:1px solid var(--border); cursor:pointer;
+    transition:background .15s;
+  }
+  .playlist-item:last-child{ border-bottom:none; }
+  .playlist-item:hover{ background:var(--bg-elev-2); }
+  .playlist-item.active{ background:var(--accent-soft); }
+  .playlist-item .title{ font-size:14px; font-weight:500; }
+  .playlist-item .dur{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); flex-shrink:0; }
+
+  footer{ padding:36px 0 56px; text-align:center; }
+  footer p{ color:var(--text-dim); font-size:13px; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a class="logo" href="index.html"><span class="dot"></span>SHUBHANSHU&nbsp;PANDEY</a>
+    <a class="back-link" href="index.html">← Back to portfolio</a>
+  </nav>
+</header>
+
+<div class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Personal project · practice build</div>
+    <h1>Video player access control: geography + time-window blocking</h1>
+    <p>Two patterns from broadcast video work, rebuilt as an original demo: a live-stream player that enforces a
+      simulated region block plus a recurring scheduled break, and a VOD player with a playlist. Both use
+      <strong>Video.js</strong>, an open-source HTML5 player.</p>
+    <p class="note">Not employer work — an original, clean-room practice build. Streams are free, publicly
+      available demo sources (see credits below each player), not real broadcast infrastructure.</p>
+  </div>
+</div>
+
+<section id="live">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">01 · Live Stream</div>
+      <h2>Region + time-window blocking</h2>
+      <p>This demo assumes the viewer is in India, so the stream is geo-blocked by default. Separately, it also
+        blocks automatically during the last 5 minutes of every hour (a scheduled-break window) — a common pattern
+        for ad-insertion or rights windows around the top of the hour. Either condition shows an overlay with an
+        "Unblock" button so you can see the content anyway.</p>
+    </div>
+
+    <div class="player-shell">
+      <video id="livePlayer" class="video-js vjs-16-9 vjs-big-play-centered" controls preload="auto" data-setup="{}"></video>
+      <div class="block-overlay" id="blockOverlay">
+        <div class="block-icon">🔒</div>
+        <h3 id="blockReasonTitle">Content blocked</h3>
+        <p id="blockReasonBody"></p>
+        <div class="block-countdown" id="blockCountdown" style="display:none;"></div>
+        <button class="unblock-btn" id="unblockBtn">Unblock and watch anyway</button>
+      </div>
+    </div>
+
+    <div class="status-row">
+      <span class="status-chip mono" id="geoChip">geo: —</span>
+      <span class="status-chip mono" id="timeChip">schedule: —</span>
+      <button class="reblock-link" id="reblockBtn" style="display:none;">re-enable simulated block</button>
+    </div>
+    <p class="note" id="liveSourceNote" style="margin-top:14px;">Live source: a public HLS test stream
+      (test-streams.mux.dev, hosted for cross-origin player demos). Free, publicly hosted, and reliably always-on.</p>
+  </div>
+</section>
+
+<section id="vod">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">02 · On-Demand</div>
+      <h2>VOD player with playlist</h2>
+      <p>Standard on-demand playback with a custom "Playlist" button added to the player's own control bar —
+        click it (or an item below) to switch content.</p>
+    </div>
+
+    <div class="player-shell">
+      <video id="vodPlayer" class="video-js vjs-16-9 vjs-big-play-centered" controls preload="auto" data-setup="{}"></video>
+    </div>
+
+    <div class="playlist-panel" id="playlistPanel"></div>
+    <p class="note" style="margin-top:14px;">VOD sources: CC0 sample clips hosted by MDN and W3Schools
+      specifically for cross-origin player demos.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Shubhanshu Pandey — <a href="index.html" style="text-decoration:underline;">back to portfolio</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/video.js@8/dist/video.min.js"></script>
+<script>
+  // ---------- Live player: region + scheduled-break blocking ----------
+  // NASA's/Apple's public HLS endpoints either moved or don't send permissive CORS headers for
+  // third-party embedding, so this demo leads with Mux's test-streams.mux.dev feed — hosted
+  // specifically for cross-origin browser player demos, which is what "always works" needs here.
+  const LIVE_PRIMARY = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+  const LIVE_BONUS_SPACE_FEED = 'https://ntv1.akamaized.net/hls/live/2014075/NASA-NTV1-Public/master.m3u8';
+
+  const livePlayer = videojs('livePlayer', { liveui: true, autoplay: false, muted: true });
+  livePlayer.src({ src: LIVE_PRIMARY, type: 'application/x-mpegURL' });
+
+  // Probe the space-themed feed with a plain fetch (checks the manifest is actually reachable
+  // right now, since public feeds like this can move endpoints over time) and only switch the
+  // player to it if that succeeds — otherwise silently keep the guaranteed-stable primary.
+  fetch(LIVE_BONUS_SPACE_FEED, { method: 'GET', mode: 'cors' })
+    .then((res) => {
+      if (!res.ok) throw new Error('not ok');
+      livePlayer.src({ src: LIVE_BONUS_SPACE_FEED, type: 'application/x-mpegURL' });
+      const note = document.getElementById('liveSourceNote');
+      if (note) note.textContent = 'Live source: NASA TV (public HLS).';
+    })
+    .catch(() => { /* bonus feed unreachable right now — keep the reliable primary */ });
+
+  const ASSUMED_REGION_BLOCKED = true; // demo assumption: viewer is in India, which is geo-blocked
+  let manuallyUnblocked = false;
+
+  const params = new URLSearchParams(location.search);
+  const forceTimeBlock = params.get('forceTimeBlock') === '1';
+
+  function isScheduledBreak(d = new Date()) {
+    return forceTimeBlock || d.getMinutes() >= 55;
+  }
+
+  function secondsToTopOfHour(d = new Date()) {
+    return (59 - d.getMinutes()) * 60 + (60 - d.getSeconds());
+  }
+
+  const overlay = document.getElementById('blockOverlay');
+  const reasonTitle = document.getElementById('blockReasonTitle');
+  const reasonBody = document.getElementById('blockReasonBody');
+  const countdownEl = document.getElementById('blockCountdown');
+  const geoChip = document.getElementById('geoChip');
+  const timeChip = document.getElementById('timeChip');
+  const reblockBtn = document.getElementById('reblockBtn');
+
+  function evaluateLiveBlock() {
+    const geoBlocked = ASSUMED_REGION_BLOCKED;
+    const timeBlocked = isScheduledBreak();
+    const blocked = (geoBlocked || timeBlocked) && !manuallyUnblocked;
+
+    geoChip.textContent = 'geo: simulated India' + (geoBlocked ? ' (blocked)' : '');
+    geoChip.className = 'status-chip mono ' + (geoBlocked ? 'on' : 'off');
+    timeChip.textContent = timeBlocked ? 'schedule: on break' : 'schedule: live';
+    timeChip.className = 'status-chip mono ' + (timeBlocked ? 'on' : 'off');
+    reblockBtn.style.display = manuallyUnblocked ? 'inline' : 'none';
+
+    if (!blocked) {
+      overlay.classList.remove('active');
+      return;
+    }
+
+    overlay.classList.add('active');
+    if (geoBlocked && timeBlocked) {
+      reasonTitle.textContent = 'Blocked: region + scheduled break';
+      reasonBody.textContent = 'This stream is geo-restricted in your simulated region (India) and is also in its scheduled break until the top of the hour.';
+    } else if (geoBlocked) {
+      reasonTitle.textContent = 'Not available in your region';
+      reasonBody.textContent = 'This stream is geo-restricted in your simulated region (India) for this demo.';
+    } else {
+      reasonTitle.textContent = 'Scheduled break';
+      reasonBody.textContent = 'Live streams in this demo pause for 5 minutes at the end of every hour, resuming at :00.';
+    }
+
+    if (timeBlocked) {
+      const s = secondsToTopOfHour();
+      const m = Math.floor(s / 60), ss = s % 60;
+      countdownEl.style.display = 'inline-block';
+      countdownEl.textContent = `resumes in ${m}:${String(ss).padStart(2, '0')}`;
+    } else {
+      countdownEl.style.display = 'none';
+    }
+  }
+
+  document.getElementById('unblockBtn').addEventListener('click', () => {
+    manuallyUnblocked = true;
+    evaluateLiveBlock();
+  });
+  reblockBtn.addEventListener('click', () => {
+    manuallyUnblocked = false;
+    evaluateLiveBlock();
+  });
+
+  evaluateLiveBlock();
+  setInterval(evaluateLiveBlock, 1000);
+
+  // ---------- VOD player + playlist ----------
+  // CC0/tutorial sample clips hosted specifically for cross-origin embedding demos
+  // (MDN's interactive-examples bucket, W3Schools' tutorial assets) — verified reachable.
+  const PLAYLIST = [
+    { title: 'Big Buck Bunny (clip)', src: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+    { title: 'Flower (CC0 sample)', src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
+    { title: 'Friday (CC0 sample)', src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/friday.mp4' },
+  ];
+
+  const vodPlayer = videojs('vodPlayer', { autoplay: false });
+  const playlistPanel = document.getElementById('playlistPanel');
+  let currentIndex = 0;
+
+  function renderPlaylist() {
+    playlistPanel.innerHTML = '';
+    PLAYLIST.forEach((item, i) => {
+      const row = document.createElement('div');
+      row.className = 'playlist-item' + (i === currentIndex ? ' active' : '');
+      row.innerHTML = `<span class="title">${item.title}</span><span class="dur mono">${item.dur || ''}</span>`;
+      row.addEventListener('click', () => loadItem(i));
+      playlistPanel.appendChild(row);
+    });
+  }
+
+  function loadItem(i) {
+    currentIndex = i;
+    vodPlayer.src({ src: PLAYLIST[i].src, type: 'video/mp4' });
+    renderPlaylist();
+    vodPlayer.one('loadedmetadata', () => {
+      const d = vodPlayer.duration();
+      if (isFinite(d)) {
+        const m = Math.floor(d / 60), s = Math.round(d % 60);
+        PLAYLIST[i].dur = `${m}:${String(s).padStart(2, '0')}`;
+        renderPlaylist();
+      }
+    });
+  }
+
+  loadItem(0);
+
+  // custom "Playlist" control-bar button
+  const Button = videojs.getComponent('Button');
+  class PlaylistToggleButton extends Button {
+    constructor(player, options) {
+      super(player, options);
+      this.controlText('Playlist');
+      this.addClass('vjs-playlist-button');
+    }
+    handleClick() {
+      playlistPanel.classList.toggle('open');
+      if (playlistPanel.classList.contains('open')) {
+        playlistPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  }
+  videojs.registerComponent('PlaylistToggleButton', PlaylistToggleButton);
+  const controlBar = vodPlayer.getChild('controlBar');
+  controlBar.addChild('PlaylistToggleButton', {}, controlBar.children().length - 1);
+</script>
+
+</body>
+</html>
