@@ -42,9 +42,10 @@ Every claim in the portfolio, CV, and README must be something Shubhanshu can ex
 
 ## Portfolio projects (original, clean-room — not employer code)
 
-1. **Bilingual Content CMS** — NestJS + PostgreSQL + Next.js, JWT auth, RTL Arabic support, inspired generically by bilingual content patterns (not copied). Built at `d:\work\NextStep\backend` + `frontend`, committed locally, not yet pushed to GitHub or deployed — don't mark "Deployed" in the portfolio until it has a real live URL.
+1. **Content CMS** (renamed from "Bilingual Content CMS" — Arabic/RTL support was removed at Shubhanshu's request; the real bilingual work stays in "Selected Systems" since that's actual CNBC Arabia work, not this personal project). NestJS + PostgreSQL + Next.js, JWT auth, article CRUD with role-gated publishing. Demo seed users are neutral names (Alex Morgan, Jordan Lee) — never re-add Arabic-sounding demo names to this project, since it no longer has any Arabic/bilingual framing. Built at `d:\work\NextStep\backend` + `frontend`, committed locally, not yet pushed to GitHub or deployed.
 2. **Role Workflow Portal** — NestJS + PostgreSQL + Next.js, a case (requester → reviewer → admin) moving through a server-enforced pipeline (submitted → assigned → in_review → resolved/rejected). Inspired generically by multi-role workflow platforms (not copied — no real role names, no payment/video features). Built at `d:\work\role-workflow-portal`, committed locally, not yet pushed to GitHub or deployed.
-3. Both are now reflected in `index.html`'s new "Personal Projects" section (separate from "Selected Systems," which stays real employer work only). Still need: CV and portfolio README updated to mention these two, and — when ready — pushed to GitHub with real repo links added to the portfolio cards.
+3. **Intentionally de-emphasized in the portfolio**: these are personal side projects, not the main point. `index.html` no longer gives them their own numbered section or full case-study cards — they're a single low-key "Also built" line right after "Selected Systems" (real employer work stays the centerpiece of the homepage). Keep it that way; don't re-inflate this into a full section unless Shubhanshu asks.
+4. The CV's "PERSONAL PROJECTS" entries are already in sync with this (Content CMS description updated, no Arabic wording). Both projects should get real "View code" links once pushed to GitHub.
 
 ## When adding a new project or case study
 
