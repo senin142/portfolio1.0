@@ -174,6 +174,11 @@
     display:flex; justify-content:space-between; align-items:center; gap:8px;
   }
   .gallery-item .cap .arrow{ color:var(--accent); flex-shrink:0; }
+  .gallery-stack{ padding:0 12px 12px; display:flex; flex-wrap:wrap; gap:5px; }
+  .gallery-stack span{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--text-dim);
+    border:1px solid var(--border); padding:2px 7px; border-radius:4px;
+  }
 
   /* experience timeline */
   .timeline{ position:relative; padding-left:26px; }
@@ -313,14 +318,17 @@
         <a class="gallery-item" href="https://github.com/senin142/portfolio_frontend" target="_blank" rel="noopener">
           <img src="screenshots/content-cms.png" alt="Content CMS public reading site with tag filters and article list" loading="lazy">
           <div class="cap"><span>Content CMS</span><span class="arrow">↗</span></div>
+          <div class="gallery-stack"><span>NestJS</span><span>PostgreSQL (Supabase)</span><span>Next.js</span><span>Socket.IO</span></div>
         </a>
         <a class="gallery-item" href="https://github.com/senin142/role-workflow-portal" target="_blank" rel="noopener">
           <img src="screenshots/role-workflow-portal.png" alt="Role Workflow Portal case detail showing the status pipeline stepper" loading="lazy">
           <div class="cap"><span>Role Workflow Portal</span><span class="arrow">↗</span></div>
+          <div class="gallery-stack"><span>NestJS</span><span>PostgreSQL</span><span>Next.js</span></div>
         </a>
         <a class="gallery-item" href="streaming-demo.html">
           <img src="screenshots/streaming-demo.png" alt="Video player access-control demo with geo and time-window blocking" loading="lazy">
           <div class="cap"><span>Video player demo</span><span class="arrow">→</span></div>
+          <div class="gallery-stack"><span>Video.js</span><span>HLS</span></div>
         </a>
       </div>
     </div>
