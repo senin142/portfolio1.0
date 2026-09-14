@@ -6,23 +6,29 @@
 <title>Shubhanshu Pandey — Full-Stack Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0c1218;
-    --bg-elev:#131b23;
-    --bg-elev-2:#182028;
-    --border:#243040;
-    --text:#e7edf2;
-    --text-muted:#8b9aac;
-    --text-dim:#5e6c7d;
-    --accent:#4fd6c4;
-    --accent-dim:#3aa89b;
-    --accent-soft:rgba(79,214,196,0.10);
-    --amber:#e8a33d;
-    --amber-soft:rgba(232,163,61,0.12);
+    --bg:#faf8f4;
+    --bg-elev:#ffffff;
+    --bg-elev-2:#f3f0e9;
+    --border:#e6e2d8;
+    --text:#20241f;
+    --text-muted:#5c6259;
+    --text-dim:#8d9188;
+    --accent:#2f8f80;
+    --accent-dim:#24746a;
+    --accent-soft:rgba(47,143,128,0.09);
+    --amber:#b3691a;
+    --amber-soft:rgba(179,105,26,0.10);
     --radius:10px;
     --maxw:1040px;
+    /* the terminal panel is a deliberate dark contrast element, not tied to the page theme */
+    --term-bg:#171f1c;
+    --term-bg-2:#1e2723;
+    --term-border:#2c3630;
+    --term-text:#dbe4df;
+    --term-muted:#7d8a83;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -36,7 +42,7 @@
   }
   ::selection{ background:var(--accent-soft); color:var(--accent); }
   a{ color:inherit; }
-  h1,h2,h3{ font-family:'Space Grotesk',sans-serif; margin:0; letter-spacing:-0.01em; }
+  h1,h2,h3{ font-family:'Fraunces',serif; font-weight:600; margin:0; letter-spacing:-0.01em; }
   .mono{ font-family:'JetBrains Mono',monospace; }
   .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
   @media (max-width:640px){ .wrap{ padding:0 20px; } }
@@ -44,19 +50,19 @@
   /* ---------- Nav ---------- */
   header{
     position:sticky; top:0; z-index:50;
-    background:rgba(12,18,24,0.85);
+    background:rgba(250,248,244,0.88);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border);
   }
   nav.wrap{ display:flex; align-items:center; justify-content:space-between; height:60px; }
   .logo{ font-family:'JetBrains Mono',monospace; font-weight:600; font-size:15px; display:flex; align-items:center; gap:8px; }
-  .logo .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); }
+  .logo .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); }
   .navlinks{ display:flex; gap:28px; font-size:14px; color:var(--text-muted); }
   .navlinks a{ text-decoration:none; transition:color .15s; }
   .navlinks a:hover{ color:var(--accent); }
   .navcta{
     font-family:'JetBrains Mono',monospace; font-size:13px; text-decoration:none;
-    color:var(--bg); background:var(--accent); padding:8px 14px; border-radius:6px; font-weight:600;
+    color:#fff; background:var(--accent); padding:8px 14px; border-radius:6px; font-weight:600;
     transition:background .15s;
   }
   .navcta:hover{ background:var(--accent-dim); }
@@ -88,32 +94,32 @@
     padding:11px 18px; border-radius:7px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
     border:1px solid var(--border); transition:border-color .15s, background .15s;
   }
-  .btn-primary{ background:var(--accent); color:#06110f; border-color:var(--accent); font-weight:600; }
-  .btn-primary:hover{ background:var(--accent-dim); }
+  .btn-primary{ background:var(--accent); color:#fbfffd; border-color:var(--accent); font-weight:600; }
+  .btn-primary:hover{ background:var(--accent-dim); border-color:var(--accent-dim); }
   .btn-ghost{ color:var(--text); }
   .btn-ghost:hover{ border-color:var(--accent-dim); color:var(--accent); }
 
-  /* terminal card */
+  /* terminal card — deliberately dark, a contrast element against the light page */
   .term{
-    background:var(--bg-elev); border:1px solid var(--border); border-radius:var(--radius);
-    overflow:hidden; box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);
+    background:var(--term-bg); border:1px solid var(--term-border); border-radius:var(--radius);
+    overflow:hidden; box-shadow:0 20px 60px -20px rgba(20,30,25,0.35);
   }
   .term-bar{
-    display:flex; align-items:center; gap:7px; padding:11px 14px; border-bottom:1px solid var(--border);
-    background:var(--bg-elev-2);
+    display:flex; align-items:center; gap:7px; padding:11px 14px; border-bottom:1px solid var(--term-border);
+    background:var(--term-bg-2);
   }
-  .term-bar span{ width:9px; height:9px; border-radius:50%; background:#374252; }
-  .term-title{ margin-left:8px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); }
+  .term-bar span{ width:9px; height:9px; border-radius:50%; background:#3a453e; }
+  .term-title{ margin-left:8px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--term-muted); }
   .term-body{ padding:18px 16px; font-family:'JetBrains Mono',monospace; font-size:12.6px; min-height:210px; }
   .term-line{ display:flex; gap:10px; margin-bottom:9px; opacity:0; animation:fadein .4s forwards; }
-  .term-ts{ color:var(--text-dim); flex-shrink:0; }
+  .term-ts{ color:var(--term-muted); flex-shrink:0; }
   .term-tag{ flex-shrink:0; }
-  .tag-warn{ color:var(--amber); }
-  .tag-ok{ color:var(--accent); }
-  .tag-info{ color:#6f9ce8; }
-  .term-msg{ color:var(--text-muted); }
+  .tag-warn{ color:#e0a94f; }
+  .tag-ok{ color:#5fd6bf; }
+  .tag-info{ color:#7fabe8; }
+  .term-msg{ color:var(--term-text); }
   @keyframes fadein{ to{ opacity:1; } }
-  .cursor{ display:inline-block; width:6px; height:12px; background:var(--accent); animation:blink 1s step-end infinite; vertical-align:middle; margin-left:2px;}
+  .cursor{ display:inline-block; width:6px; height:12px; background:#5fd6bf; animation:blink 1s step-end infinite; vertical-align:middle; margin-left:2px;}
   @keyframes blink{ 50%{ opacity:0; } }
 
   /* ---------- sections ---------- */
@@ -143,6 +149,8 @@
   .sys-status.amber span.label{ color:var(--amber); }
   .syscard h3{ font-size:17.5px; margin-bottom:9px; }
   .syscard p{ color:var(--text-muted); font-size:14.3px; }
+  .sys-reflect{ margin-top:12px; padding-top:12px; border-top:1px dashed var(--border); font-size:13.3px; }
+  .sys-reflect b{ color:var(--text); font-weight:600; }
   .sys-tags{ display:flex; flex-wrap:wrap; gap:7px; margin-top:15px; }
   .sys-tags span{
     font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted);
@@ -236,9 +244,9 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow">Shubhanshu Pandey · Full-Stack Engineer</div>
+      <div class="eyebrow">Shubhanshu Pandey · Backend-leaning Engineer · Open to remote</div>
       <h1>I build and operate <span class="accent">production systems</span> — not just interfaces.</h1>
-      <p class="lead">Node.js / NestJS backends, React &amp; Next.js front ends, and the PostgreSQL and GCP infrastructure that keeps them running. Currently leading a team on the CNBC Arabia platform.</p>
+      <p class="lead">Node.js / NestJS backends, React &amp; Next.js front ends, and the PostgreSQL and GCP infrastructure that keeps them running. Currently leading a team on the CNBC Arabia platform — backend-leaning, and open to remote roles.</p>
       <div class="hero-stats">
         <div class="stat"><b>4+ yrs</b><span>Full-stack, backend-leaning</span></div>
         <div class="stat"><b>5–6</b><span>Engineers led</span></div>
@@ -246,8 +254,8 @@
         <div class="stat"><b>100+</b><span>Bugs resolved</span></div>
       </div>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#systems">View selected systems →</a>
-        <a class="btn btn-ghost" href="mailto:shubhanshupandey049@gmail.com">shubhanshupandey049@gmail.com</a>
+        <a class="btn btn-primary" href="mailto:shubhanshupandey049@gmail.com">Contact me directly →</a>
+        <a class="btn btn-ghost" href="#systems">View selected systems</a>
       </div>
     </div>
     <div class="term">
@@ -285,18 +293,21 @@
         <div class="sys-status"><span class="sdot"></span><span class="label">Deployed</span></div>
         <h3>Bilingual content data model</h3>
         <p>Designed and migrated <strong style="color:var(--text)">40+ PostgreSQL tables</strong> — including one exceeding 50,000 records — generating DDL from Sequelize-TypeScript entities, resolving foreign-key constraints, and bulk-loading bilingual Arabic/English content.</p>
+        <p class="sys-reflect"><b>Challenge:</b> bulk-loading into the 50,000+ row table while keeping foreign keys intact meant migrations had to run in a strict dependency order — a failure partway through left tables in an inconsistent state. <b>Next time:</b> I'd script that ordering and add automated FK-integrity checks up front, instead of resolving constraint failures migration by migration.</p>
         <div class="sys-tags"><span>PostgreSQL</span><span>Sequelize-TypeScript</span><span>Data Migration</span></div>
       </div>
       <div class="syscard">
         <div class="sys-status amber"><span class="sdot"></span><span class="label">In staging</span></div>
         <h3>Meta + YouTube analytics ingestion</h3>
         <p>Building an ingestion pipeline covering one Facebook, Instagram, and YouTube account, ahead of production rollout. Designed a shared ingestion-runs tracking table and a remediation roadmap — idempotency constraints and Cloud Tasks orchestration.</p>
+        <p class="sys-reflect"><b>Challenge:</b> Meta Graph and YouTube Data each have their own rate limits, pagination, and failure modes, which made a single shared abstraction harder to get right on the first pass. <b>Next time:</b> I'd design the shared ingestion-runs table and retry/backoff policy before writing the first platform-specific integration, not after.</p>
         <div class="sys-tags"><span>Meta Graph API</span><span>YouTube Data API</span><span>Cloud Tasks</span><span>NestJS</span></div>
       </div>
       <div class="syscard">
         <div class="sys-status"><span class="sdot"></span><span class="label">Ongoing</span></div>
         <h3>Production reliability &amp; bug resolution</h3>
         <p>Resolved <strong style="color:var(--text)">100+ bugs</strong> across backend and frontend, including a BT.601/BT.709 colorspace mismatch causing incorrect livestream colors (web-only, not YouTube), a GCS upload race condition, and an Elasticsearch sort-query bug.</p>
+        <p class="sys-reflect"><b>Challenge:</b> the colorspace bug only showed up in the web player, not YouTube's own player, which pointed suspicion at the encoder before the color-matrix handling in playback. <b>Next time:</b> I'd add a colorspace-tagging check earlier in the pipeline so a mismatch surfaces as an automated warning instead of a visual bug report.</p>
         <div class="sys-tags"><span>Video Pipeline</span><span>GCS</span><span>Elasticsearch</span><span>NestJS</span></div>
       </div>
     </div>
@@ -304,7 +315,7 @@
       <span class="g-title">Also built — things I can do, demonstrated</span>
       <p>Three original projects, on my own time and not employer work, each one built specifically to demonstrate a skill: a CMS with role-gated publishing and real-time updates, a role-based case workflow, and a video player with geography/time-based access control. Click through — each links to its code or a live demo.</p>
       <div class="also-built-gallery">
-        <a class="gallery-item" href="https://github.com/senin142/content-cms" target="_blank" rel="noopener">
+        <a class="gallery-item" href="https://github.com/senin142/portfolio_frontend" target="_blank" rel="noopener">
           <img src="screenshots/content-cms.png" alt="Content CMS public reading site with tag filters and article list" loading="lazy">
           <div class="cap"><span>Content CMS</span><span class="arrow">↗</span></div>
         </a>
