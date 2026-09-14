@@ -78,7 +78,11 @@
   @media (max-width:520px){ .hero h1{ font-size:33px; } }
   .hero h1 .accent{ color:var(--accent); }
   .hero p.lead{ color:var(--text-muted); font-size:16.5px; margin-top:18px; max-width:46ch; }
-  .hero-actions{ display:flex; gap:12px; margin-top:30px; flex-wrap:wrap; }
+  .hero-stats{ display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:26px; }
+  .hero-stats .stat{ display:flex; flex-direction:column; }
+  .hero-stats .stat b{ font-family:'Space Grotesk',sans-serif; font-size:20px; color:var(--text); line-height:1.2; }
+  .hero-stats .stat span{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.05em; }
+  .hero-actions{ display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
   .btn{
     font-family:'JetBrains Mono',monospace; font-size:13.5px; font-weight:500;
     padding:11px 18px; border-radius:7px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
@@ -232,9 +236,15 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow">Full-Stack Engineer</div>
+      <div class="eyebrow">Shubhanshu Pandey · Full-Stack Engineer</div>
       <h1>I build and operate <span class="accent">production systems</span> — not just interfaces.</h1>
-      <p class="lead">Node.js / NestJS backends, React &amp; Next.js front ends, and the PostgreSQL and GCP infrastructure that keeps them running. Currently building and leading a team on the CNBC Arabia platform.</p>
+      <p class="lead">Node.js / NestJS backends, React &amp; Next.js front ends, and the PostgreSQL and GCP infrastructure that keeps them running. Currently leading a team on the CNBC Arabia platform.</p>
+      <div class="hero-stats">
+        <div class="stat"><b>4+ yrs</b><span>Full-stack, backend-leaning</span></div>
+        <div class="stat"><b>5–6</b><span>Engineers led</span></div>
+        <div class="stat"><b>40+</b><span>DB tables shipped</span></div>
+        <div class="stat"><b>100+</b><span>Bugs resolved</span></div>
+      </div>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#systems">View selected systems →</a>
         <a class="btn btn-ghost" href="mailto:shubhanshupandey049@gmail.com">shubhanshupandey049@gmail.com</a>
