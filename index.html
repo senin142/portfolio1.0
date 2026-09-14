@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shubhanshu Pandey — Full-Stack Engineer</title>
+<script>
+  (function(){
+    var stored = localStorage.getItem('theme');
+    var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -21,6 +28,7 @@
     --accent-soft:rgba(47,143,128,0.09);
     --amber:#b3691a;
     --amber-soft:rgba(179,105,26,0.10);
+    --header-bg:rgba(250,248,244,0.88);
     --radius:10px;
     --maxw:1040px;
     /* the terminal panel is a deliberate dark contrast element, not tied to the page theme */
@@ -29,6 +37,21 @@
     --term-border:#2c3630;
     --term-text:#dbe4df;
     --term-muted:#7d8a83;
+  }
+  [data-theme="dark"]{
+    --bg:#14171b;
+    --bg-elev:#1b1f24;
+    --bg-elev-2:#20242b;
+    --border:#2b313a;
+    --text:#e9e6df;
+    --text-muted:#9aa19a;
+    --text-dim:#666d67;
+    --accent:#4fd6c4;
+    --accent-dim:#3aa89b;
+    --accent-soft:rgba(79,214,196,0.12);
+    --amber:#e8a33d;
+    --amber-soft:rgba(232,163,61,0.14);
+    --header-bg:rgba(20,23,27,0.82);
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -39,6 +62,7 @@
     font-family:'Inter',sans-serif;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    transition:background .2s ease, color .2s ease;
   }
   ::selection{ background:var(--accent-soft); color:var(--accent); }
   a{ color:inherit; }
@@ -50,7 +74,7 @@
   /* ---------- Nav ---------- */
   header{
     position:sticky; top:0; z-index:50;
-    background:rgba(250,248,244,0.88);
+    background:var(--header-bg);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border);
   }
@@ -66,6 +90,18 @@
     transition:background .15s;
   }
   .navcta:hover{ background:var(--accent-dim); }
+  .nav-right{ display:flex; align-items:center; gap:14px; }
+  .theme-toggle{
+    width:34px; height:34px; border-radius:50%; border:1px solid var(--border);
+    background:var(--bg-elev); color:var(--text-muted); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:border-color .15s, color .15s; flex-shrink:0;
+  }
+  .theme-toggle:hover{ border-color:var(--accent-dim); color:var(--accent); }
+  .theme-toggle svg{ width:17px; height:17px; }
+  .theme-toggle .icon-moon{ display:block; }
+  .theme-toggle .icon-sun{ display:none; }
+  [data-theme="dark"] .theme-toggle .icon-moon{ display:none; }
+  [data-theme="dark"] .theme-toggle .icon-sun{ display:block; }
   .navmobile{ display:none; }
   @media (max-width:760px){
     .navlinks{ display:none; }
@@ -237,7 +273,13 @@
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
     </div>
-    <a class="navcta" href="mailto:shubhanshupandey049@gmail.com">Get in touch</a>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" type="button">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <a class="navcta" href="mailto:shubhanshupandey049@gmail.com">Get in touch</a>
+    </div>
   </nav>
 </header>
 
@@ -418,6 +460,14 @@
 </footer>
 
 <script>
+  // Theme toggle
+  document.getElementById('themeToggle').addEventListener('click', function(){
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+
   // Terminal log typing sequence
   const logLines = [
     { ts:'08:14:02', tag:'OK  ', tclass:'tag-ok',   msg:'postgres: migration applied — tv_side_menus' },

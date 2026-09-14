@@ -43,6 +43,7 @@ Every claim in the portfolio, CV, and README must be something Shubhanshu can ex
 - Each of the 3 Selected Systems cards has a `.sys-reflect` block ("Challenge: ... Next time: ...") — keep these grounded strictly in already-verified facts below; if adding a new one, confirm with Shubhanshu first per the hard rule.
 - Case study cards use a status dot + label: teal "Deployed" / amber "In staging" / teal "Ongoing" — never mark something deployed if it isn't.
 - Single-file HTML (`index.html`), no build step, hosted via GitHub Pages at https://senin142.github.io/portfolio1.0/
+- **Light/dark mode toggle** (added 2026-09-14): a circular sun/moon button in the nav's top-right, next to "Get in touch". Implementation: `data-theme="light"|"dark"` on `<html>`, dark palette overrides declared right after the light `:root` block (source order matters — same specificity, later wins), persisted to `localStorage['theme']`, defaulting to `prefers-color-scheme` on first visit. A tiny synchronous script is the very first thing in `<head>` (before the Google Fonts link and the `<style>` block) so the theme is set before first paint — don't move it later or a light-mode flash comes back on a stored dark preference. The hero terminal panel's `--term-*` tokens are deliberately NOT overridden per-theme — it stays dark in both.
 
 ## Portfolio projects (original, clean-room — not employer code)
 
